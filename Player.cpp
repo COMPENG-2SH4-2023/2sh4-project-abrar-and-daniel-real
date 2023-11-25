@@ -1,4 +1,7 @@
 #include "Player.h"
+#include <iostream>
+
+using namespace std;
 
 Player::Player(GameMechs *thisGMRef)
 {
@@ -27,9 +30,7 @@ void Player::updatePlayerDir()
     //  Need to recieve some input to process
     //  --> use gameMechs class to do this
 
-    char input = mainGameMechsRef->getInput();
-
-    switch (input)
+    switch(mainGameMechsRef->getInput())
     {
     case 'w':
         if (myDir != DOWN)
@@ -67,28 +68,28 @@ void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
 
-    // 0 1 2 3 4 5 6 7 8 9
-    if (myDir == DOWN)
+    if (myDir == STOP)
     {
-        if (playerPos.y == mainGameMechsRef->getBoardSizeY() - 1)
+        if (playerPos.y == mainGameMechsRef->getBoardSizeY())
         {
-            playerPos.y == 1;
+            playerPos.y = 0;
         }
-        playerPos.y--;
+        playerPos.y++;
     }
     else if (myDir == UP)
     {
+      
         if (playerPos.y == 12 % mainGameMechsRef->getBoardSizeY())
         {
-            playerPos.y == 10;
+            playerPos.y = 10;
         }
-        playerPos.y++;
+        playerPos.y--;
     }
     else if (myDir == LEFT)
     {
         if (playerPos.x == 22 % mainGameMechsRef->getBoardSizeX())
         {
-            playerPos.x == 20;
+            playerPos.x = 20;
         }
         playerPos.x--;
     }
@@ -96,7 +97,7 @@ void Player::movePlayer()
     {
         if (playerPos.x == mainGameMechsRef->getBoardSizeX() - 1)
         {
-            playerPos.x == 1;
+            playerPos.x = 1;
         }
         playerPos.x++;
     }

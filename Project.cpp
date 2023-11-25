@@ -1,13 +1,12 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
-#include "Player.h" //are we allowed to do this????
+#include "Player.h"    //are we allowed to do this????
 #include "GameMechs.h" //are we allowed to do this????
-
 
 using namespace std;
 
-#define DELAY_CONST 100000
+#define DELAY_CONST 10000000
 
 bool exitFlag;
 
@@ -19,9 +18,9 @@ void LoopDelay(void);
 void CleanUp(void);
 
 // declare global pointer to player
-Player* myPlayer;
+Player *myPlayer;
 objPos myPos;
-GameMechs myMechs; 
+GameMechs *myMechs;
 
 int main(void)
 {
@@ -46,20 +45,19 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
     // initialize player here
-    myPlayer = new Player(&myMechs);
+    myMechs = new GameMechs();
+    myPlayer = new Player(myMechs);
 
     exitFlag = false;
-    
 }
 
 void GetInput(void)
 {
-    myPlayer->updatePlayerDir(); 
 }
 
 void RunLogic(void)
 {
-    myPlayer->movePlayer(); 
+    myPlayer->movePlayer();
 }
 
 void DrawScreen(void)
@@ -98,7 +96,6 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen();
 
     MacUILib_uninit();
 }

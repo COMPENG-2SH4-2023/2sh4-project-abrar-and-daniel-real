@@ -4,7 +4,7 @@
 
 GameMechs::GameMechs()
 {
-    input = '\0';
+    input = NULL;
     exitFlag = false;
     loseFlag = false;
     score = 0;
@@ -14,7 +14,7 @@ GameMechs::GameMechs()
 
 GameMechs::GameMechs(int boardX, int boardY)
 {
-    input = '\0'; 
+    input = NULL;
     exitFlag = false;
     loseFlag = false; 
     score = 0;
