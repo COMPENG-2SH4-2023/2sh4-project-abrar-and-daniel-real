@@ -68,7 +68,7 @@ void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
 
-    if (myDir == STOP)
+    if (myDir == DOWN)
     {
         if (playerPos.y == mainGameMechsRef->getBoardSizeY())
         {

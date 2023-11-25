@@ -53,6 +53,7 @@ void Initialize(void)
 
 void GetInput(void)
 {
+    myPlayer->updatePlayerDir();
 }
 
 void RunLogic(void)
