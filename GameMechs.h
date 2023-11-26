@@ -9,7 +9,6 @@
 
 using namespace std;
 
-
 class GameMechs
 {
     // Construct the remaining declaration from the project manual.
@@ -18,34 +17,35 @@ class GameMechs
 
     // You will include more data members and member functions to complete your design.
 
-    private:
-        char input;
-        bool exitFlag;
-        bool loseFlag;
-        int score;
+private:
+    objPos foodPos;
+    char input;
+    bool exitFlag;
+    bool loseFlag;
+    int score;
 
-        int boardSizeX;
-        int boardSizeY;
+    int boardSizeX;
+    int boardSizeY;
 
-    public:
-        GameMechs(); //done
-        GameMechs(int boardX, int boardY); //done
+public:
+    GameMechs();                       // done
+    GameMechs(int boardX, int boardY); // done
 
-        bool getExitFlagStatus();  //done
-        bool getLoseFlagStatus();    //done
-        void setExitTrue();         //done
-        void setLoseFlag();         //done
-        char getInput();            //done
-        void setInput(char this_input); //done
-        void clearInput();          //done
-        void incrementScore();      //done
+    bool getExitFlagStatus();       // done
+    bool getLoseFlagStatus();       // done
+    void setExitTrue();             // done
+    void setLoseFlag();             // done
+    char getInput();                // done
+    void setInput(char this_input); // done
+    void clearInput();              // done
+    void incrementScore();          // done
 
-        int getBoardSizeX();        //done
-        int getBoardSizeY();        //done
-        int getScore();             //dome
+    int getBoardSizeX(); // done
+    int getBoardSizeY(); // done
+    int getScore();      // dome
 
-
-
+    void generateFood(objPosArrayList* blockOff);
+    void getFoodPos(objPos &returnPos);
 };
 
 #endif

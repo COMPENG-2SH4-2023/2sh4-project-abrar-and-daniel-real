@@ -3,12 +3,11 @@
 #include "objPos.h"
 #include "Player.h"    //are we allowed to do this????
 #include "GameMechs.h" //are we allowed to do this????
+#include "objPosArrayList.h"
 
 using namespace std;
 
-#define DELAY_CONST 10000000
-
-bool exitFlag;
+#define DELAY_CONST 10000000000
 
 void Initialize(void);
 void GetInput(void);
@@ -19,15 +18,15 @@ void CleanUp(void);
 
 // declare global pointer to player
 Player *myPlayer;
-objPos myPos;
 GameMechs *myMechs;
+objPos myPos;
 
 int main(void)
 {
 
     Initialize();
 
-    while (exitFlag == false)
+    while (myMechs->getExitFlagStatus() == false)
     {
         GetInput();
         RunLogic();
@@ -45,35 +44,61 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
     // initialize player here
-    myMechs = new GameMechs();
+    myMechs = new GameMechs(30, 15);
     myPlayer = new Player(myMechs);
-
-    exitFlag = false;
+    myMechs->generateFood(myPlayer->getPlayerPos());
 }
 
 void GetInput(void)
 {
-    myPlayer->updatePlayerDir();
+    myMechs->getInput();
+
 }
 
 void RunLogic(void)
 {
+    myPlayer->updatePlayerDir();
+
     myPlayer->movePlayer();
+
+    myMechs->clearInput();
 }
 
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
-    int i = 0;
-    int j = 0;
-    MacUILib_printf("current pos and symbol: [%d, %d] and %c \n", myPos.x, myPos.y, myPos.symbol);
-    for (j = 0; j < 10; j++)
+
+    bool drawn;
+
+    objPosArrayList *playerBody = myPlayer->getPlayerPos();
+    objPos tempBody;
+
+    objPos myFoodPos;
+    myMechs->getFoodPos(myFoodPos);
+    for (int j = 1; j <= myMechs->getBoardSizeY(); j++)
     {
 
-        for (i = 0; i < 20; i++)
+        for (int i = 1; i <= myMechs->getBoardSizeX(); i++)
         {
-            myPlayer->getPlayerPos(myPos);
-            if (j == 0 || j == 10 - 1 || i == 0 || i == 20 - 1)
+            drawn = false;
+            for (int k = 0; k < playerBody->getSize(); k++)
+            {
+                playerBody->getElement(tempBody, k);
+                if (j == tempBody.y && i == tempBody.x)
+                {
+
+                    MacUILib_printf("@");
+                    drawn = true;
+                    break;
+                }
+            }
+
+            if (drawn)
+            {
+                continue;
+            }
+
+            if (j == 1 || j == myMechs->getBoardSizeY() || i == 1 || i == myMechs->getBoardSizeX())
             {
                 MacUILib_printf("#");
             }
@@ -81,6 +106,11 @@ void DrawScreen(void)
             {
                 MacUILib_printf("%c", myPos.symbol);
             }
+            else if (i == myFoodPos.x && j == myFoodPos.y)
+            {
+                MacUILib_printf("%c", myFoodPos.symbol);
+            }
+
             else
             {
                 MacUILib_printf(" ");
@@ -88,15 +118,19 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n");
     }
+    MacUILib_printf("current pos and symbol for Player: [%d, %d] and %c \n", tempBody.x, tempBody.y, tempBody.symbol);
+    MacUILib_printf("current pos and symbol for Food: [%d, %d] and %c \n", myFoodPos.x, myFoodPos.y, myFoodPos.symbol);
 }
 
 void LoopDelay(void)
 {
-    MacUILib_Delay(DELAY_CONST); // 0.1s delay
+    MacUILib_Delay(7500000); // 0.1s delay
 }
 
 void CleanUp(void)
 {
 
     MacUILib_uninit();
+    delete myMechs;
+    delete myPlayer;
 }
