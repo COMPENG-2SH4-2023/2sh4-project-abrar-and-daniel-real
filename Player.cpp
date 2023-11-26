@@ -109,17 +109,37 @@ void Player::movePlayer()
         }
         tempPos.x++;
     }
-    mainGameMechsRef->getFoodPos(tempFoodPos);
-    if (tempPos.x == tempFoodPos.x && tempPos.y == tempFoodPos.y)
+    if (myDir != STOP)
     {
-        playerPosList->insertHead(tempPos);
-        mainGameMechsRef->generateFood(getPlayerPos());
+        if (checkSelfCollision(tempPos) == false)
+        {
+            mainGameMechsRef->getFoodPos(tempFoodPos);
+            if (tempPos.x == tempFoodPos.x && tempPos.y == tempFoodPos.y)
+            {
+                playerPosList->insertHead(tempPos);
+                mainGameMechsRef->generateFood(getPlayerPos());
+            }
+            else
+            {
+                playerPosList->insertHead(tempPos);
+                playerPosList->removeTail();
+            }
+        }
     }
-    else
+}
+
+bool Player::checkSelfCollision(objPos headPos)
+{
+    for (int i = 0; i < playerPosList->getSize(); i++)
     {
-        playerPosList->insertHead(tempPos);
-        playerPosList->removeTail();
+        objPos tempPos;
+        playerPosList->getElement(tempPos, i);
+        if (headPos.x == tempPos.x && headPos.y == tempPos.y)
+        {
+            mainGameMechsRef->setLoseFlag();
+            return true;
+            break;
+        }
     }
-
-
+    return false;
 }

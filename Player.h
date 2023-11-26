@@ -22,6 +22,7 @@ class Player
         objPosArrayList* getPlayerPos(); // Upgrade this in iteration 3.
         void updatePlayerDir();
         void movePlayer();
+        bool checkSelfCollision(objPos headPos);
 
     private:
         // objPos playerPos     
@@ -30,6 +31,7 @@ class Player
 
         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
+        
 };
 
 #endif

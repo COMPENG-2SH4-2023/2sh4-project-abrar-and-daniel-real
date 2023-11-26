@@ -19,7 +19,7 @@ print_ptr MacUILib_printf;
 
 	void MacUILib_Delay(int usec)
 	{
-		usleep(usec);
+		sleep(usec);
 	}
 	
 	int MacUILib_hasChar(void)

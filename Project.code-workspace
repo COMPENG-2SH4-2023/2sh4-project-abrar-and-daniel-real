@@ -1,0 +1,30 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../PPA3/ppa3-scavenger-hunt-game-olived5"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"functional": "cpp",
+			"vector": "cpp",
+			"xhash": "cpp",
+			"xlocale": "cpp",
+			"xstring": "cpp",
+			"algorithm": "cpp",
+			"memory": "cpp",
+			"xutility": "cpp",
+			"fstream": "cpp",
+			"atomic": "cpp",
+			"istream": "cpp",
+			"map": "cpp",
+			"ostream": "cpp",
+			"xlocnum": "cpp",
+			"*.rh": "cpp",
+			"system_error": "cpp"
+		}
+	}
+}

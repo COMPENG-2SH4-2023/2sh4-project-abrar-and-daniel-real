@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#define DELAY_CONST 10000000000
+#define DELAY_CONST 0.9
 
 void Initialize(void);
 void GetInput(void);
@@ -26,7 +26,7 @@ int main(void)
 
     Initialize();
 
-    while (myMechs->getExitFlagStatus() == false)
+    while (myMechs->getExitFlagStatus() == false && myMechs->getLoseFlagStatus() == false)
     {
         GetInput();
         RunLogic();
@@ -120,11 +120,16 @@ void DrawScreen(void)
     }
     MacUILib_printf("current pos and symbol for Player: [%d, %d] and %c \n", tempBody.x, tempBody.y, tempBody.symbol);
     MacUILib_printf("current pos and symbol for Food: [%d, %d] and %c \n", myFoodPos.x, myFoodPos.y, myFoodPos.symbol);
+    MacUILib_printf("Score: %d", playerBody->getSize() - 1);
+    if(myMechs->getLoseFlagStatus() == true)
+    {
+         MacUILib_printf("Game Over!");
+    }
 }
 
 void LoopDelay(void)
 {
-    MacUILib_Delay(7500000); // 0.1s delay
+    MacUILib_Delay(DELAY_CONST); // 0.1s delay
 }
 
 void CleanUp(void)
