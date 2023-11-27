@@ -13,25 +13,33 @@ class Player
 
     // You will include more data members and member functions to complete your design.
 
-    public:
-        enum Dir {UP, DOWN, LEFT, RIGHT, STOP};  // This is the direction state
+public:
+    enum Dir
+    {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT,
+        STOP
+    }; // This is the direction state
 
-        Player(GameMechs* thisGMRef);
-        ~Player();
+    Player(GameMechs *thisGMRef);
+    ~Player();
 
-        objPosArrayList* getPlayerPos(); // Upgrade this in iteration 3.
-        void updatePlayerDir();
-        void movePlayer();
-        bool checkSelfCollision(objPos headPos);
+    objPosArrayList *getPlayerPos(); // Upgrade this in iteration 3.
+    void updatePlayerDir();
+    void movePlayer();
+    bool checkSelfCollision(objPos headPos);
 
-    private:
-        // objPos playerPos     
-        enum Dir myDir;
-        objPosArrayList *playerPosList; 
+    void collectSuperFoodType2();
 
-        // Need a reference to the Main Game Mechanisms
-        GameMechs* mainGameMechsRef;
-        
+private:
+    // objPos playerPos
+    enum Dir myDir;
+    objPosArrayList *playerPosList;
+
+    // Need a reference to the Main Game Mechanisms
+    GameMechs *mainGameMechsRef;
 };
 
 #endif

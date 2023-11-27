@@ -19,6 +19,7 @@ class GameMechs
 
 private:
     objPos foodPos;
+    objPosArrayList *foodBucket;
     char input;
     bool exitFlag;
     bool loseFlag;
@@ -31,6 +32,12 @@ public:
     GameMechs();                       // done
     GameMechs(int boardX, int boardY); // done
 
+    ~GameMechs();
+
+    objPosArrayList *getFoodBucket();
+
+    void clearFoodBucket();
+
     bool getExitFlagStatus();       // done
     bool getLoseFlagStatus();       // done
     void setExitTrue();             // done
@@ -39,12 +46,12 @@ public:
     void setInput(char this_input); // done
     void clearInput();              // done
     void incrementScore();          // done
-
+    void incrementScoreTwo(int x);
     int getBoardSizeX(); // done
     int getBoardSizeY(); // done
     int getScore();      // dome
 
-    void generateFood(objPosArrayList* blockOff);
+    void generateFood(objPosArrayList *blockOff);
     void getFoodPos(objPos &returnPos);
 };
 

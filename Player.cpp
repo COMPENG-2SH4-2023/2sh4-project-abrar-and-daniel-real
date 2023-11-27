@@ -76,6 +76,9 @@ void Player::movePlayer()
     objPos tempPos;
     objPos tempFoodPos;
     playerPosList->getHeadElement(tempPos);
+    objPosArrayList *tempFoodBucket = mainGameMechsRef->getFoodBucket();
+    bool collected = false;
+
     if (myDir == DOWN)
     {
         if (tempPos.y == mainGameMechsRef->getBoardSizeY() - 1)
@@ -113,13 +116,49 @@ void Player::movePlayer()
     {
         if (checkSelfCollision(tempPos) == false)
         {
-            mainGameMechsRef->getFoodPos(tempFoodPos);
-            if (tempPos.x == tempFoodPos.x && tempPos.y == tempFoodPos.y)
+            for (int l = 0; l <= tempFoodBucket->getSize(); l++)
             {
-                playerPosList->insertHead(tempPos);
-                mainGameMechsRef->generateFood(getPlayerPos());
+                tempFoodBucket->getElement(tempFoodPos, l);
+                // this line of code guarantees that we are on top of some random food obj
+                // who's pos. we do not know..........
+                if (tempPos.x == tempFoodPos.x && tempPos.y == tempFoodPos.y)
+                {
+                    // here, I will check to see what the collided pos. actually is
+                    if (tempFoodPos.symbol == '+')
+                    {
+                        // lets say + will increase the player score by 10 without affecting the player snake body length
+                        mainGameMechsRef->incrementScoreTwo(10);
+                    }
+                    else if (tempFoodPos.symbol == '-')
+                    {
+                        // lets pretend that this symbol is one that you do not want to collect
+                        // hence, it should have a negatice consequence should you collect it
+                        // for ex.... let's do: it decreases your snake length.
+                        // problem! --> we cant't decrease the snake length if the '-' superfood is the first food
+                        //  we collect on the board, because we start with a length of 1...... a length of 0
+                        //  is not possible.....
+                        //  so, if we collect a '-' with a length of 1, we will simply regenerate the board without doing anythigm.
+                        // lets try!
+                        if (playerPosList->getSize() > 5)
+                        {
+
+                            collectSuperFoodType2();
+                            mainGameMechsRef->incrementScoreTwo(-5);
+                        }
+                    }
+                    else
+                    {
+
+                        mainGameMechsRef->incrementScore();
+                        playerPosList->insertHead(tempPos);
+                    }
+                    mainGameMechsRef->clearFoodBucket();
+                    mainGameMechsRef->generateFood(playerPosList);
+                    collected = true;
+                    break;
+                }
             }
-            else
+            if (collected == false)
             {
                 playerPosList->insertHead(tempPos);
                 playerPosList->removeTail();
@@ -142,4 +181,12 @@ bool Player::checkSelfCollision(objPos headPos)
         }
     }
     return false;
+}
+
+void Player::collectSuperFoodType2()
+{
+    while (playerPosList->getSize() != 1)
+    {
+        playerPosList->removeTail();
+    }
 }

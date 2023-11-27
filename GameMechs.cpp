@@ -10,6 +10,8 @@ GameMechs::GameMechs()
     score = 0;
     boardSizeX = 20;
     boardSizeY = 10;
+
+    foodBucket = new objPosArrayList();
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
@@ -20,10 +22,14 @@ GameMechs::GameMechs(int boardX, int boardY)
     score = 0;
     boardSizeX = boardX;
     boardSizeY = boardY;
+
+    foodBucket = new objPosArrayList();
 }
 
-// do you need a destructor?
-
+GameMechs::~GameMechs()
+{
+    delete foodBucket;
+}
 bool GameMechs::getExitFlagStatus()
 {
     return exitFlag;
@@ -82,17 +88,27 @@ void GameMechs::incrementScore()
     score++;
 }
 
+void GameMechs::incrementScoreTwo(int x)
+{
+    score += x;
+}
+
 void GameMechs::generateFood(objPosArrayList *blockOff)
 {
+    objPos tempPos;
 
     int candidX;
     int candidY;
-    objPos tempPos; 
-    bool generateFood; 
+
+    int candidSuperFood;
+    int superFoodQuantity = 0;
+
+    bool generateFood;
     srand((unsigned int)time(NULL));
-    while (1)
+
+    while (foodBucket->getSize() != 5)
     {
-        generateFood = true; 
+        generateFood = true;
         int candidX = (rand() % (boardSizeX - 2)) + 2;
         int candidY = (rand() % (boardSizeY - 2)) + 2;
 
@@ -102,21 +118,47 @@ void GameMechs::generateFood(objPosArrayList *blockOff)
             if (candidX == tempPos.x && candidY == tempPos.y)
             {
                 generateFood = false;
-                break;  
+                break;
             }
         }
-        if(generateFood)
+        if (generateFood)
         {
-            foodPos.setObjPos(candidX, candidY, '*');
-            break;
+
+            candidSuperFood = rand() % 2 + 1;
+            if (candidSuperFood == 1 && superFoodQuantity < 2)
+            {
+                foodPos.setObjPos(candidX, candidY, '+');
+                superFoodQuantity++;
+            }
+            else if (candidSuperFood == 2 && superFoodQuantity < 2)
+            {
+                foodPos.setObjPos(candidX, candidY, '-');
+                superFoodQuantity++;
+            }
+            else
+            {
+                foodPos.setObjPos(candidX, candidY, '*');
+            }
+
+            foodBucket->insertHead(foodPos);
         }
-        else{
-            continue; 
+        else
+        {
+            continue;
         }
     }
 }
 
-void GameMechs::getFoodPos(objPos &returnPos)
+objPosArrayList *GameMechs::getFoodBucket()
 {
-    returnPos.setObjPos(foodPos.x, foodPos.y, foodPos.symbol);
+    return foodBucket;
 }
+
+void GameMechs::clearFoodBucket()
+{
+    while (foodBucket->getSize() != 0)
+    {
+        foodBucket->removeTail();
+    }
+}
+
