@@ -112,54 +112,70 @@ void Player::movePlayer()
         }
         tempPos.x++;
     }
+
+    //check to see if the user has started playing the game
     if (myDir != STOP)
     {
+        //check for collision with food if the player has not lost the game yet through self-collision
         if (checkSelfCollision(tempPos) == false)
         {
+            //iterate through the food bucket array list
             for (int l = 0; l <= tempFoodBucket->getSize(); l++)
             {
+                //  update the tempFoodPos object to hold the coordinate value at indiex l
+                //  of the food bucket array list
                 tempFoodBucket->getElement(tempFoodPos, l);
-                // this line of code guarantees that we are on top of some random food obj
-                // who's pos. we do not know..........
+                
+                //  check for player-food collision
                 if (tempPos.x == tempFoodPos.x && tempPos.y == tempFoodPos.y)
                 {
-                    // here, I will check to see what the collided pos. actually is
+                  
+                    //collision with superfood type 1
                     if (tempFoodPos.symbol == '+')
                     {
-                        // lets say + will increase the player score by 10 without affecting the player snake body length
+                        //increase player score by 10
                         mainGameMechsRef->incrementScoreTwo(10);
                     }
+                    
+                    //collision with superfood type 2
                     else if (tempFoodPos.symbol == '-')
                     {
-                        // lets pretend that this symbol is one that you do not want to collect
-                        // hence, it should have a negatice consequence should you collect it
-                        // for ex.... let's do: it decreases your snake length.
-                        // problem! --> we cant't decrease the snake length if the '-' superfood is the first food
-                        //  we collect on the board, because we start with a length of 1...... a length of 0
-                        //  is not possible.....
-                        //  so, if we collect a '-' with a length of 1, we will simply regenerate the board without doing anythigm.
-                        // lets try!
+                        //only apply an effect if the player body is 5 units or greater 
                         if (playerPosList->getSize() > 5)
                         {
-
+                            
+                            //invoke application of collecting a type 2 super food
+                            //decrease player score by 5
                             collectSuperFoodType2();
                             mainGameMechsRef->incrementScoreTwo(-5);
                         }
                     }
+
+                    //collision with normal food type
                     else
                     {
-
+                        
+                        //increase score and insert to the head
                         mainGameMechsRef->incrementScore();
                         playerPosList->insertHead(tempPos);
                     }
+
+                    //clear the food bucket to make space for new generation
                     mainGameMechsRef->clearFoodBucket();
+
+                    //generate a new food bucket
                     mainGameMechsRef->generateFood(playerPosList);
+
+                    //update food collection status
                     collected = true;
                     break;
                 }
             }
+
+            //if player-food collision has not occured
             if (collected == false)
             {
+                //insert head AND remove tail
                 playerPosList->insertHead(tempPos);
                 playerPosList->removeTail();
             }
@@ -169,12 +185,19 @@ void Player::movePlayer()
 
 bool Player::checkSelfCollision(objPos headPos)
 {
+    //iterate through player body array list
     for (int i = 0; i < playerPosList->getSize(); i++)
     {
+        //declare object to hold current position of the player body array list
         objPos tempPos;
+
+        //set the temporary object to hold the head position of the player body array list
         playerPosList->getElement(tempPos, i);
+
+        //check if the temporary object collides with any other part of the player body
         if (headPos.x == tempPos.x && headPos.y == tempPos.y)
         {
+            //update lose flag
             mainGameMechsRef->setLoseFlag();
             return true;
             break;
@@ -183,10 +206,12 @@ bool Player::checkSelfCollision(objPos headPos)
     return false;
 }
 
+//implementation of collecting super food type 2
 void Player::collectSuperFoodType2()
 {
-    while (playerPosList->getSize() != 1)
-    {
-        playerPosList->removeTail();
-    }
+    //remove the tail 5 times to simulate decreasing size by a factor of 5
+    for(int i = 0; i < 5; i++)
+        {
+            playerPosList->removeTail();
+        }
 }

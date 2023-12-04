@@ -33,6 +33,11 @@ public:
 
     void collectSuperFoodType2();
 
+    
+    
+
+   
+
 private:
     // objPos playerPos
     enum Dir myDir;
@@ -40,6 +45,11 @@ private:
 
     // Need a reference to the Main Game Mechanisms
     GameMechs *mainGameMechsRef;
+
+    
+
+
+    
 };
 
 #endif
