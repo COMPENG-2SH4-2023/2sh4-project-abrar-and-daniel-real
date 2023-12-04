@@ -123,7 +123,7 @@ void DrawScreen(void)
     MacUILib_printf("Score: %d", myMechs->getScore());
     if (myMechs->getLoseFlagStatus() == true)
     {
-        MacUILib_printf("Game Over!");
+        MacUILib_printf("\nGame Over!");
     }
 }
 
