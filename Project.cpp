@@ -44,7 +44,7 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     //Intatialize board size and heap members
-    myMechs = new GameMechs(25, 10);
+    myMechs = new GameMechs(50, 25);
     myPlayer = new Player(myMechs);
     //Initialize food bucket generation
     myMechs->generateFood(myPlayer->getPlayerPos());
@@ -173,7 +173,7 @@ void DrawScreen(void)
 
 void LoopDelay(void)
 {
-    MacUILib_Delay(1); // 0.1s delay
+    MacUILib_Delay(150000); // 0.1s delay
 }
 
 void CleanUp(void)

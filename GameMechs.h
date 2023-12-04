@@ -38,18 +38,18 @@ public:
 
     void clearFoodBucket();
 
-    bool getExitFlagStatus();       // done
-    bool getLoseFlagStatus();       // done
-    void setExitTrue();             // done
-    void setLoseFlag();             // done
-    char getInput();                // done
-    void setInput(char this_input); // done
-    void clearInput();              // done
-    void incrementScore();          // done
+    bool getExitFlagStatus();       
+    bool getLoseFlagStatus();       
+    void setExitTrue();             
+    void setLoseFlag();             
+    char getInput();                
+    void setInput(char this_input); 
+    void clearInput();              
+    void incrementScore();          
     void incrementScoreTwo(int x);
-    int getBoardSizeX(); // done
-    int getBoardSizeY(); // done
-    int getScore();      // dome
+    int getBoardSizeX(); 
+    int getBoardSizeY(); 
+    int getScore();      
 
     void generateFood(objPosArrayList *blockOff);
     void getFoodPos(objPos &returnPos);
